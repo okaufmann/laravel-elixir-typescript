@@ -15,7 +15,7 @@ elixir.extend('typescript', function (outputFileName, outputFolder, search, opti
     var assetPath = './' + elixir.config.assetsPath;
 
     outputFolder = outputFolder || './public/js/';
-    search = '/typescript' + search || '/**/*.ts';
+    search = search || '/typescript/**/*.ts';
 
     options = _.extend({
         sortOutput: true
