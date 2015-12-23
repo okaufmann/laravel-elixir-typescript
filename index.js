@@ -9,13 +9,13 @@ var _laravelReporter = require('./reporter');
 
 var Task = elixir.Task;
 
-elixir.extend('typescript', function (output, dest, search, options) {
+elixir.extend('typescript', function (outputFileName, outputFolder, search, options) {
 
     var pluginName = 'typescript';
     var assetPath = './' + elixir.config.assetsPath;
 
-    dest = dest || './public/js/app.js';
-    search = search || '/**/*.ts';
+    outputFolder = outputFolder || './public/js/';
+    search = '/typescript' + search || '/**/*.ts';
 
     options = _.extend({
         sortOutput: true
@@ -25,8 +25,8 @@ elixir.extend('typescript', function (output, dest, search, options) {
         var tsResult = gulp.src(assetPath + search)
             .pipe(ts(options, undefined, _laravelReporter.ElixirMessage()));
         return tsResult
-            .pipe(concat(output))
-            .pipe(gulp.dest(dest));
+            .pipe(concat(outputFileName))
+            .pipe(gulp.dest(outputFolder));
     })
         .watch(assetPath + '/typescript/**');
 });
