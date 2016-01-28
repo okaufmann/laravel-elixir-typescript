@@ -1,7 +1,7 @@
 {
-  "name": "elixir-typescript",
+  "name": "nc@elixir-typescript",
   "version": "1.1.2",
-  "description": "Laravel Elixir Typescript Compiler Extension",
+  "description": "Laravel Elixir Typescript Compiler Extension(Customizied version)",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -14,22 +14,24 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/okaufmann/laravel-elixir-typescript"
+    "url": "https://github.com/nekoromancer/laravel-elixir-typescript"
   },
   "author": {
-    "name": "MikeyAlder"
+    "name": "MikeyAlder, Nekoromancer"
   },
   "license": "MIT",
-  "homepage": "https://github.com/okaufmann/laravel-elixir-typescript",
+  "homepage": "https://github.com/nekoromancer/laravel-elixir-typescript",
   "bugs": {
-    "url": "https://github.com/okaufmann/laravel-elixir-typescript/issues"
+    "url": "https://github.com/nekoromancer/laravel-elixir-typescript"
   },
   "dependencies": {
     "gulp-typescript":"^2.4.2",
     "gulp-concat":"^2.5.2",
     "underscore": "^1.7.0",
     "gulp-util":"^3.0.4",
-    "node-notifier":"^4.1.2"
+    "node-notifier":"^4.1.2",
+    "gulp-sourcemap": "^1.0.1",
+    "lazypipe": "^1.0.1"
   },
   "directories": {}
 }
