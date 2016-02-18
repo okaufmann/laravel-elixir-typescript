@@ -19,7 +19,7 @@ elixir.extend('typescript', function (outputFileName, outputFolder, search, opti
     }, options);
 
     new Task(pluginName, function () {
-        var tsResult = gulp.src(assetPath + '/**/*.ts')
+        var tsResult = gulp.src(assetPath + search)
             .pipe(ts(options))
                 .on('error', function(e) {
                     new elixir.Notification().error(e, 'TypeScript Compilation Failed!');
