@@ -1,4 +1,4 @@
-elixir-typescript 
+elixir-typescript
 ========================
 
 **(forked from laravel-elixir-typescript by [MikeyAlder](https://github.com/MikeyAlder/laravel-elixir-typescript))**
@@ -9,13 +9,13 @@ You have to install [Laravel's Elixir](http://laravel.com/docs/master/elixir)(Ve
 ## Upgrade
 The signature was changed to the following:
 ```
-mix.typescript(outputFileName, outputFolder, search, options);
+mix.typescript(src, output, options);
 ```
 
 ## Installation
 Install with Node.js
 ```
-npm install elixir-typescript
+npm install elixir-typescript --save
 ```
 
 ## Usage
@@ -30,23 +30,33 @@ var elixir = require('laravel-elixir');
 var elixirTypscript = require('elixir-typescript');
 
 elixir(function(mix) {
-  mix.typescript('app.js');
+  mix.typescript('app.ts');
 });
 ```
 
-This will compile all *.ts files in your `resources/assets/typescript/` folder and concat the compiled content into `public/js/app.js`.
+This will compile the `app.ts` file in `resources/assets/typescript/` and concat the compiled content into `public/js/app.js`.
 
-If you'd like to output to a different directory than the default `public/js`, then you may override this as well.
+If you'd like to output to a different directory than the default `public/js`, then you may override this by provide a path for `output` as well.
 
 ```
-mix.typescript('app.js', 'public/js/foo/bar');
+mix.typescript('app.js', 'public/js/foo/bar.js');
 ```
+
+Further you could insert multiple files like
+
+```
+elixir(function(mix) {
+  mix.typescript(['module1.ts', 'module2.ts']);
+});
+```
+
+### tsconfig.json
+The project file is also supported. Just put your file into the typescript asset folder and the pluging will automatically use it.
 
 ## Parameters
 
 Bellow is the list of the available parameters:
 
-- **outputFileName**: Filename for output
-- **outputFolder**(optional): Where to place the output file. Default: `public/js/`
-- **search** (optional): filter for input files, can also be a direct path to one file like `app.ts`. Defaults: `/**/*.ts`
+- **src**: Filename for output
+- **output**(optional): Where to place the output file. Default: `public/js/`
 - **options** (optional): Options to forward to the `gulp-typescript` used for compiling. All options under https://github.com/ivogabe/gulp-typescript#options
