@@ -1,34 +1,67 @@
-var gulp = require('gulp');
-var elixir = require('laravel-elixir');
-var ts = require('gulp-typescript');
 var concat = require('gulp-concat');
+var ts = require('gulp-typescript');
+var gulp   = require('gulp');
+var Elixir = require('laravel-elixir');
+var fileExists = require('file-exists');
+var path = require('path');
+
 var _ = require('underscore');
 
-var Task = elixir.Task;
+var $ = Elixir.Plugins;
+var config = Elixir.config;
 
-elixir.extend('typescript', function (outputFileName, outputFolder, search, options) {
+// overwrite elixir config values
+var tsFolder = 'resources/assets/typescript'; // would be config.get('assets.js.typescript.folder');
+var tsOutput = config.get('public.js.outputFolder');
 
-    var pluginName = 'typescript';
-    var assetPath = './' + elixir.config.assetsPath;
+Elixir.extend('typescript', function(src, output, options) {
+    var paths = prepGulpPaths(src, output);
 
-    outputFolder = outputFolder || './public/js/';
-    search = search || '/typescript/**/*.ts';
+    new Elixir.Task('typescript', function() {
+        this.log(paths.src, paths.output);
 
-    options = _.extend({
-        sortOutput: true
-    }, options);
+        // check if there is an tsconfig.json file --> initialize ts project
+        var tsProject = null;
+        var tsConfigPath = path.join(tsFolder, 'tsconfig.json');
+        if(fileExists(tsConfigPath)){
+            tsProject = ts.createProject(tsConfigPath, options);
+        }else{
+            // useful default options
+            options = _.extend({
+                sortOutput: true
+            }, options);
+        }
 
-    new Task(pluginName, function () {
-        var tsResult = gulp.src(assetPath + search)
-            .pipe(ts(options))
+        return (
+            gulp
+            .src(paths.src.path)
+            .pipe($.if(config.sourcemaps, $.sourcemaps.init()))
+            .pipe(ts(tsProject == null ? options : tsProject)
                 .on('error', function(e) {
-                    new elixir.Notification().error(e, 'TypeScript Compilation Failed!');
+                    new Elixir.Notification().error(e, 'TypeScript Compilation Failed!');
+
                     this.emit('end');
-                });
-        return tsResult
-            .pipe(concat(outputFileName))
-            .pipe(gulp.dest(outputFolder));
-            .pipe(new elixir.Notification('TypeScript Compiled!'));
+                }))
+            .pipe($.concat(paths.output.name))
+            .pipe($.if(config.production, $.uglify()))
+            .pipe($.if(config.sourcemaps, $.sourcemaps.write('.')))
+            .pipe(gulp.dest(paths.output.baseDir))
+            .pipe(new Elixir.Notification('TypeScript Compiled!'))
+        );
     })
-        .watch(assetPath + '/typescript/**');
+    .watch(path.join(paths.src.baseDir, "**/*.ts"))
+    .ignore(paths.output.path);
 });
+
+/**
+ * Prep the Gulp src and output paths.
+ *
+ * @param  {string|Array} src
+ * @param  {string|null}  output
+ * @return {GulpPaths}
+ */
+var prepGulpPaths = function(src, output) {
+    return new Elixir.GulpPaths()
+        .src(src, tsFolder)
+        .output(output || tsOutput, 'app.js');
+};

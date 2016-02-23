@@ -25,11 +25,12 @@
     "url": "https://github.com/okaufmann/laravel-elixir-typescript/issues"
   },
   "dependencies": {
-    "gulp-typescript":"^2.4.2",
-    "gulp-concat":"^2.5.2",
-    "underscore": "^1.7.0",
-    "gulp-util":"^3.0.4",
-    "node-notifier":"^4.1.2"
+    "file-exists": "^1.0.0",
+    "gulp-concat": "^2.5.2",
+    "gulp-typescript": "^2.4.2",
+    "gulp-util": "^3.0.4",
+    "node-notifier": "^4.1.2",
+    "underscore": "^1.7.0"
   },
   "directories": {}
 }
