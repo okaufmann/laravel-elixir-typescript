@@ -10,13 +10,15 @@ You have to install [Laravel's Elixir](http://laravel.com/docs/master/elixir)(Ve
 
 ## Upgrade
 The signature was changed to the following:
-```
+
+```js
 mix.typescript(src, output, options);
 ```
 
 ## Installation
 Install with Node.js
-```
+
+```js
 npm install elixir-typescript --save
 ```
 
@@ -25,7 +27,7 @@ A simple [gulp-typescript](https://github.com/ivogabe/gulp-typescript) wrapper i
 
 Add it to your Elixir-enhanced Gulpfile, like so:
 
-```
+```js
 var elixir = require('laravel-elixir');
 
 // import the dependency
@@ -40,13 +42,13 @@ This will compile the `app.ts` file in `resources/assets/typescript/` and concat
 
 If you'd like to output to a different directory than the default `public/js`, then you may override this by provide a path for `output` as well.
 
-```
+```js
 mix.typescript('app.js', 'public/js/foo/bar.js');
 ```
 
 Further you could insert multiple files like
 
-```
+```js
 elixir(function(mix) {
   mix.typescript(['module1.ts', 'module2.ts']);
 });
