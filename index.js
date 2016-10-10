@@ -10,9 +10,8 @@ var _ = require('underscore');
 var $ = Elixir.Plugins;
 var config = Elixir.config;
 
-// overwrite elixir config values
-var tsFolder = 'resources/assets/typescript'; // would be config.get('assets.js.typescript.folder');
-var tsOutput = config.get('public.js.outputFolder');
+var tsFolder = config.assetsPath;
+var tsOutput = config.publicPath;
 
 Elixir.extend('typescript', function(src, output, options) {
     var paths = prepGulpPaths(src, output);
