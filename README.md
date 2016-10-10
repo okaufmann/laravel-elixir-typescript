@@ -6,17 +6,12 @@ elixir-typescript
 [![npm version](https://badge.fury.io/js/elixir-typescript.svg)](https://badge.fury.io/js/elixir-typescript)
 
 ## Prerequirement
-You have to install [Laravel's Elixir](http://laravel.com/docs/master/elixir)(Version 3.0 or higher) and its dependencies first.
+You have to install [Laravel's Elixir](http://laravel.com/docs/master/elixir)(Version 6.0 or higher) and its dependencies first.
 
-## Upgrade to v2.1.0
-The signature was changed to the following:
-
-```js
-mix.typescript(src, baseDir, output, options);
-```
+Consult Changelog.md
 
 ## Installation
-Install with Node.js
+Install through Node.js
 
 ```js
 npm install elixir-typescript --save
@@ -55,7 +50,7 @@ elixir(function(mix) {
 ```
 
 ### tsconfig.json
-The project file is also supported. Just put your file into the typescript asset folder and the pluging will automatically use it.
+Just put `tsconfig.json` into the root folder (where your gulpfile.js lives) and the plugin will automatically use it.
 
 ## Parameters
 
