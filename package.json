@@ -2,9 +2,18 @@
   "name": "elixir-typescript",
   "version": "2.1.0",
   "description": "Laravel Elixir Typescript Compiler Extension",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/okaufmann/laravel-elixir-typescript"
+  },
+  "homepage": "https://github.com/okaufmann/laravel-elixir-typescript",
+  "bugs": {
+    "url": "https://github.com/okaufmann/laravel-elixir-typescript/issues"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "compile": "babel --presets=es2015 -d dist src",
+    "prepublish": "npm run compile"
   },
   "keywords": [
     "laravel",
@@ -12,22 +21,14 @@
     "typescript",
     "gulp"
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/okaufmann/laravel-elixir-typescript"
-  },
-  "author": {
-    "name": "MikeyAlder"
-  },
+  "author": "Oliver Kaufmann",
   "license": "MIT",
-  "homepage": "https://github.com/okaufmann/laravel-elixir-typescript",
-  "bugs": {
-    "url": "https://github.com/okaufmann/laravel-elixir-typescript/issues"
-  },
   "dependencies": {
     "gulp-concat": "^2.5.2",
-    "gulp-typescript": "^3.1.4",
-    "gulp-util": "^3.0.4"
+    "gulp-typescript": "^3.1.4"
   },
-  "directories": {}
+  "devDependencies": {
+    "babel-cli": "^6.10.1",
+    "babel-preset-es2015": "^6.9.0"
+  }
 }
