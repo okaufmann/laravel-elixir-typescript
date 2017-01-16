@@ -8,11 +8,11 @@ elixir-typescript
 ## Prerequirement
 You have to install [Laravel's Elixir](http://laravel.com/docs/master/elixir)(Version 3.0 or higher) and its dependencies first.
 
-## Upgrade
+## Upgrade to v2.1.0
 The signature was changed to the following:
 
 ```js
-mix.typescript(src, output, options);
+mix.typescript(src, baseDir, output, options);
 ```
 
 ## Installation
@@ -43,7 +43,7 @@ This will compile the `app.ts` file in `resources/assets/typescript/` and concat
 If you'd like to output to a different directory than the default `public/js`, then you may override this by provide a path for `output` as well.
 
 ```js
-mix.typescript('app.js', 'public/js/foo/bar.js');
+mix.typescript('app.ts', null, 'public/js/foo/bar.js');
 ```
 
 Further you could insert multiple files like
@@ -63,4 +63,5 @@ Bellow is the list of the available parameters:
 
 - **src**: Filename for output
 - **output**(optional): Where to place the output file. Default: `public/js/`
+- **baseDir,**(optional): Where to search your ts files. Default: `null`
 - **options** (optional): Options to forward to the `gulp-typescript` used for compiling. All options under https://github.com/ivogabe/gulp-typescript#options
