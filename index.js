@@ -1,30 +1,42 @@
-var concat = require('gulp-concat');
-var ts = require('gulp-typescript');
-var gulp   = require('gulp');
-var Elixir = require('laravel-elixir');
-var fileExists = require('file-exists');
-var path = require('path');
+const concat = require('gulp-concat');
+const ts = require('gulp-typescript');
+const gulp = require('gulp');
+const path = require('path');
+const fs = require('fs');
 
-var _ = require('underscore');
+const Elixir = require('laravel-elixir');
 
-var $ = Elixir.Plugins;
-var config = Elixir.config;
+const _ = require('underscore');
 
-var tsFolder = config.assetsPath;
-var tsOutput = config.publicPath;
+const $ = Elixir.Plugins;
+const config = Elixir.config;
 
-Elixir.extend('typescript', function(src, output, options) {
-    var paths = prepGulpPaths(src, output);
+let assetsPath = config.assetsPath;
+let publicPath = config.publicPath;
+let jsOutputFolder = config.js.outputFolder;
 
-    new Elixir.Task('typescript', function() {
-        this.log(paths.src, paths.output);
+// overwrite elixir config values
+var tsFolder = path.join(assetsPath, "typescript"); // would be config.get('assets.js.typescript.folder');
+var tsOutput = path.join(publicPath, jsOutputFolder);
+
+Elixir.extend('typescript', function (src, baseDir, output, options) {
+    var paths = prepGulpPaths(src, baseDir, output);
+
+    new Elixir.Task('typescript', function () {
+        // this.log(paths.src, paths.output);
+
+        // register watchers
+        this.watch(path.join(paths.src.baseDir, "**/*.ts"))
+            .ignore(paths.output.path)
+
+        this.recordStep('Transpiling Typescript files');
 
         // check if there is an tsconfig.json file --> initialize ts project
         var tsProject = null;
-        var tsConfigPath = path.join(tsFolder, 'tsconfig.json');
-        if(fileExists(tsConfigPath)){
-            tsProject = ts.createProject(tsConfigPath, options);
-        }else{
+        if (fs.existsSync('tsconfig.json')) {
+            this.recordStep('Using tsconfig.json');
+            tsProject = ts.createProject('tsconfig.json', options);
+        } else {
             // useful default options
             options = _.extend({
                 sortOutput: true
@@ -33,23 +45,17 @@ Elixir.extend('typescript', function(src, output, options) {
 
         return (
             gulp
-            .src(paths.src.path)
-            .pipe($.if(config.sourcemaps, $.sourcemaps.init()))
-            .pipe(ts(tsProject == null ? options : tsProject)
-                .on('error', function(e) {
-                    new Elixir.Notification().error(e, 'TypeScript Compilation Failed!');
-
-                    this.emit('end');
-                }))
-            .pipe($.concat(paths.output.name))
-            .pipe($.if(config.production, $.uglify()))
-            .pipe($.if(config.sourcemaps, $.sourcemaps.write('.')))
-            .pipe(gulp.dest(paths.output.baseDir))
-            .pipe(new Elixir.Notification('TypeScript Compiled!'))
+                .src(paths.src.path)
+                .pipe($.if(config.sourcemaps, $.sourcemaps.init()))
+                .pipe(ts(tsProject == null ? options : tsProject)
+                    .on('error', this.onError()))
+                .pipe($.concat(paths.output.name))
+                .pipe($.if(config.production, $.uglify()))
+                .pipe($.if(config.sourcemaps, $.sourcemaps.write('.')))
+                .pipe(this.saveAs(gulp))
+                .pipe(this.onSuccess())
         );
-    })
-    .watch(path.join(paths.src.baseDir, "**/*.ts"))
-    .ignore(paths.output.path);
+    }, paths);
 });
 
 /**
@@ -59,8 +65,8 @@ Elixir.extend('typescript', function(src, output, options) {
  * @param  {string|null}  output
  * @return {GulpPaths}
  */
-var prepGulpPaths = function(src, output) {
+var prepGulpPaths = function (src, baseDir, output) {
     return new Elixir.GulpPaths()
-        .src(src, tsFolder)
-        .output(output || tsOutput, 'app.js');
+        .src(src, baseDir || tsFolder)
+        .output(output || Elixir.config.get('public.js.outputFolder'), 'all.js');
 };
