@@ -1,6 +1,6 @@
 {
   "name": "elixir-typescript",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "description": "Laravel Elixir Typescript compiler wrapper",
   "main": "dist/index.js",
   "repository": {
@@ -11,7 +11,6 @@
   "bugs": {
     "url": "https://github.com/okaufmann/laravel-elixir-typescript/issues"
   },
-  "description": "Laravel Elixir TypeScript Compiler Extension",
   "scripts": {
     "compile": "babel --presets=es2015 -d dist src",
     "prepublish": "npm run compile"
