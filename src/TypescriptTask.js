@@ -50,11 +50,7 @@ class TypescriptTask extends Elixir.Task {
                 return gulpTypescript.createProject('tsconfig.json', this.options)(gulpTypescript.reporter.defaultReporter());
             }
 
-            // useful default options
-            // options = _.extend({
-            //     // ..
-            // }, options);
-            return gulpTypescript(options, gulpTypescript.reporter.defaultReporter());
+            return gulpTypescript(this.options, gulpTypescript.reporter.defaultReporter());
     }
 
      /**
