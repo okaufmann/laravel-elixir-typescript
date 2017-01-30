@@ -1,6 +1,7 @@
 import Elixir from 'laravel-elixir';
 import path from "path";
 import filter from 'gulp-filter';
+import {assignIn} from 'lodash';
 
 let gulpTypescript, concat, fs;
 
@@ -36,7 +37,7 @@ class TypescriptTask extends Elixir.Task {
                 .pipe(this.minify())
                 .on('error', this.onError())
                 .pipe(this.writeSourceMaps())
-                .pipe(this.saveAs(gulp))
+                .pipe(this.saveAs(gulp)) // this is just to record the step and has no effect since we use tsc to compile and save files.
                 .pipe(this.onSuccess())
         )
     }
@@ -47,7 +48,13 @@ class TypescriptTask extends Elixir.Task {
             if (fs.existsSync('tsconfig.json')) {
 
                 this.recordStep('Using tsconfig.json');
-                return gulpTypescript.createProject('tsconfig.json', this.options)(gulpTypescript.reporter.defaultReporter());
+
+                let tsOptions = this.options;
+                if (this.paths.output) {
+                    tsOptions = assignIn({outFile: this.paths.output.path}, this.options);
+                }
+
+                return gulpTypescript.createProject('tsconfig.json', tsOptions)(gulpTypescript.reporter.defaultReporter());
             }
 
             return gulpTypescript(this.options, gulpTypescript.reporter.defaultReporter());
