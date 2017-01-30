@@ -51,7 +51,8 @@ class TypescriptTask extends Elixir.Task {
 
                 let tsOptions = this.options;
                 if (this.paths.output) {
-                    tsOptions = assignIn({outFile: this.paths.output.path}, this.options);
+                    // if all files should be bundled into one file, we have to provide the filename here.
+                    tsOptions = assignIn({outFile: this.paths.output.name}, this.options);
                 }
 
                 return gulpTypescript.createProject('tsconfig.json', tsOptions)(gulpTypescript.reporter.defaultReporter());
