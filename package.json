@@ -1,6 +1,6 @@
 {
   "name": "elixir-typescript",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "description": "Laravel Elixir Typescript compiler wrapper",
   "main": "dist/index.js",
   "repository": {
