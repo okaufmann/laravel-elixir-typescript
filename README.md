@@ -14,7 +14,7 @@ Consult Changelog.md
 Install through Node.js
 
 ```js
-npm install elixir-typescript --save
+yarn add laravel-elixir-typescript
 ```
 
 ## Usage
@@ -26,16 +26,16 @@ Add it to your Elixir-enhanced Gulpfile, like so:
 var elixir = require('laravel-elixir');
 
 // import the dependency
-var elixirTypscript = require('elixir-typescript');
+require('laravel-elixir-typescript');
 
 elixir(function(mix) {
   mix.typescript('app.ts');
 });
 ```
 
-This will compile the `app.ts` file in `resources/assets/typescript/` and concat the compiled content into `public/js/app.js`.
+This will compile `app.ts` in `resources/assets/typescript/` and concat the compiled content into `public/js/app.js`.
 
-If you'd like to output to a different directory than the default `public/js`, then you may override this by provide a path for `output` as well.
+If you'd like to output to a different directory than the default `public/js`, then you may override this by provide a output path.
 
 ```js
 mix.typescript('app.ts', null, 'public/js/foo/bar.js');
