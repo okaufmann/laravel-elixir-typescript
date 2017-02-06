@@ -3,7 +3,7 @@ elixir-typescript
 
 **(forked from laravel-elixir-typescript by [MikeyAlder](https://github.com/MikeyAlder/laravel-elixir-typescript))**
 
-[![npm version](https://badge.fury.io/js/elixir-typescript.svg)](https://badge.fury.io/js/elixir-typescript)
+[![npm version](https://badge.fury.io/js/laravel-elixir-typescript.svg)](https://badge.fury.io/js/laravel-elixir-typescript)
 
 ## Prerequirement
 You have to install [Laravel's Elixir](http://laravel.com/docs/master/elixir)(Version 6.0 or higher) and its dependencies first.
