@@ -1,5 +1,5 @@
 {
-  "name": "elixir-typescript",
+  "name": "laravel-elixir-typescript",
   "version": "3.0.5",
   "description": "Laravel Elixir TypeScript Compiler Extension",
   "main": "dist/index.js",
