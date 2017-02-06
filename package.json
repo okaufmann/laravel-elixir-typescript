@@ -1,7 +1,7 @@
 {
   "name": "elixir-typescript",
   "version": "3.0.4",
-  "description": "Laravel Elixir Typescript compiler wrapper",
+  "description": "Laravel Elixir TypeScript Compiler Extension",
   "main": "dist/index.js",
   "repository": {
     "type": "git",
@@ -11,7 +11,6 @@
   "bugs": {
     "url": "https://github.com/okaufmann/laravel-elixir-typescript/issues"
   },
-  "description": "Laravel Elixir TypeScript Compiler Extension",
   "scripts": {
     "compile": "babel --presets=es2015 -d dist src",
     "prepublish": "npm run compile"
@@ -26,6 +25,7 @@
   "license": "MIT",
   "dependencies": {
     "gulp-concat": "^2.5.2",
+    "gulp-filter": "^5.0.0",
     "gulp-typescript": "^3.1.4"
   },
   "devDependencies": {
