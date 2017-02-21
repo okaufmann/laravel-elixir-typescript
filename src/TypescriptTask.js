@@ -31,8 +31,7 @@ class TypescriptTask extends Elixir.Task {
                 .src(this.paths.src.path)
                 .pipe(this.initSourceMaps())
                 .pipe(this.typescript())
-                .on('error', this.onError())
-                //.pipe($.concat(paths.output.name))
+                .on('error', this.onCompileError())
                 .pipe(jsFiles)
                 .pipe(this.minify())
                 .on('error', this.onError())
@@ -45,6 +44,8 @@ class TypescriptTask extends Elixir.Task {
     typescript() {
             this.recordStep('Transpiling Typescript files');
 
+            let reporter = gulpTypescript.reporter.nullReporter();
+
             if (fs.existsSync('tsconfig.json')) {
 
                 this.recordStep('Using tsconfig.json');
@@ -55,13 +56,31 @@ class TypescriptTask extends Elixir.Task {
                     tsOptions = assignIn({outFile: this.paths.output.name}, this.options);
                 }
 
-                return gulpTypescript.createProject('tsconfig.json', tsOptions)(gulpTypescript.reporter.defaultReporter());
+                let tsProject = gulpTypescript.createProject('tsconfig.json', tsOptions);
+                return tsProject(reporter);
             }
 
-            return gulpTypescript(this.options, gulpTypescript.reporter.defaultReporter());
+            return gulpTypescript(this.options, reporter);
     }
 
-     /**
+    /**
+     * Handle a compilation error.
+     *
+     * @return {function}
+     */
+    onCompileError() {
+        let task = this.ucName();
+
+        return function (e) {
+            new Elixir.Notification().error(
+                e.message, `${task} Compilation Failed!`
+            );
+
+            Elixir.isWatching() ? this.emit('end') : process.exit(1);
+        };
+    }
+
+    /**
      * Register file watchers.
      */
     registerWatchers() {
