@@ -39,10 +39,10 @@ elixir(function(mix) {
 
 This will compile `app.ts` in `resources/assets/typescript/` and concat the compiled content into `public/js/app.js`.
 
-If you'd like to output to a different directory than the default `public/js`, then you may override this by provide a output path.
+If you'd like to output to a different directory than the default `public/js`, then you may override this by providing an output path as a second parameter.
 
 ```js
-mix.typescript('app.ts', null, 'public/js/foo/bar.js');
+mix.typescript('app.ts', 'public/js/foo/bar.js');
 ```
 
 Further you could insert multiple files like
